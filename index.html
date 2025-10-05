@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do App</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #1e1e2f;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    .todo-container {
+      background: #2c2c44;
+      padding: 20px;
+      border-radius: 15px;
+      width: 400px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    input, button {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    input[type="text"] {
+      width: 100%;
+    }
+    input[type="datetime-local"] {
+      width: 100%;
+    }
+    button {
+      cursor: pointer;
+      background: #2196f3;
+      color: white;
+    }
+    button:hover {
+      background: #1976d2;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #3b3b5c;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: #bbb;
+    }
+    .actions button {
+      margin-left: 5px;
+      background: #444;
+    }
+    .actions button:hover {
+      background: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <h2>To-Do App</h2>
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <input type="datetime-local" id="taskDate">
+    <button onclick="addTask()">Add Task</button>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    const taskInput = document.getElementById("taskInput");
+    const taskDate = document.getElementById("taskDate");
+    const taskList = document.getElementById("taskList");
+
+    function addTask() {
+      if (taskInput.value === "") return alert("Enter a task!");
+
+      const li = document.createElement("li");
+      const taskText = document.createElement("span");
+      taskText.innerText = `${taskInput.value} (${taskDate.value || "No date"})`;
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const completeBtn = document.createElement("button");
+      completeBtn.innerText = "✔";
+      completeBtn.onclick = () => taskText.classList.toggle("completed");
+
+      const editBtn = document.createElement("button");
+      editBtn.innerText = "✏";
+      editBtn.onclick = () => {
+        const newTask = prompt("Edit Task:", taskInput.value);
+        if (newTask) taskText.innerText = `${newTask} (${taskDate.value || "No date"})`;
+      };
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerText = "🗑";
+      deleteBtn.onclick = () => li.remove();
+
+      actions.appendChild(completeBtn);
+      actions.appendChild(editBtn);
+      actions.appendChild(deleteBtn);
+
+      li.appendChild(taskText);
+      li.appendChild(actions);
+      taskList.appendChild(li);
+
+      taskInput.value = "";
+      taskDate.value = "";
+    }
+  </script>
+</body>
+</html>
